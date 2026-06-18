@@ -250,7 +250,7 @@ with bridge_cols[2]:
     st.markdown(f"""
     <div class="metric-card">
         <div class="metric-label">= Medical-CPI FV mark</div>
-        <div class="metric-value">{fmt_usd(float_fv_mark)}</div>
+        <div class="metric-value">{fmt_usd(fv_mark)}</div>
         <div class="metric-note">Fair-value mark at {fmt_usd(medical_cpi_fv)} per USDiMED.</div>
     </div>
     """, unsafe_allow_html=True)
@@ -266,7 +266,7 @@ with spread_cols[2]:
 
 st.markdown(f"""
 <div class="callout">
-    <b>Launch wedge:</b> {fmt_usd(acquisition_cost)} acquisition cost + {fmt_usd(max(inventory_accretion, 0))} fair-value accretion = {fmt_usd(float_fv_mark)} medical-CPI fair-value mark.
+    <b>Launch wedge:</b> {fmt_usd(acquisition_cost)} acquisition cost + {fmt_usd(max(inventory_accretion, 0))} fair-value accretion = {fmt_usd(fv_mark)} medical-CPI fair-value mark.
 </div>
 """, unsafe_allow_html=True)
 
