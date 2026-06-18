@@ -160,7 +160,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-st.markdown("""<div class="callout"><b>Double-bang thesis:</b> a CareFi investment can provide exposure to the MEDUSDi / USDC anchor LP strategy plus equity in the company building market infrastructure around healthcare inflation and medical cost-risk surfaces.</div>""", unsafe_allow_html=True)
+st.markdown("""<div class="callout"><b>Pool Economics + Platform Equity:</b> the MEDUSDi / USDC pool is the anchor proof point. CareFi equity is the infrastructure upside around healthcare inflation and medical cost-risk surfaces.</div>""", unsafe_allow_html=True)
 
 st.header("Pool Economics + Platform Equity")
 st.markdown("""<div class="section-copy">A direct MEDUSDi buyer owns the exposure. A CareFi investor owns the operating company positioned to acquire the initial float, anchor the first USDC-facing market, retain strategic inventory, earn LP economics, and commercialize the broader healthcare cost-risk infrastructure layer.</div>""", unsafe_allow_html=True)
