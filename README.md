@@ -1,16 +1,13 @@
-# CareFi MEDUSDi Market Lab
+# CareFi MEDUSDi Float-to-Market Lab
 
-**MEDUSDi is the asset. The AMM is the market. CareFi is the operator.**
+**The pool anchors the market. The equity owns the infrastructure.**
 
-This is an investor-facing Streamlit demo for the MEDUSDi roadshow. It combines a simple investor-allocation calculator with a Uniswap-style AMM simulator and LP revenue model, so investors can see both the exposure and the market mechanism.
+This Streamlit app models the CareFi / MEDUSDi investor thesis:
 
-## What it demonstrates
-
-1. **Investor Allocation** — how many MEDUSDi an investor receives for a USDC allocation and the implied basis to medical-CPI fair value.
-2. **AMM Market Simulator** — how a MEDUSDi/USDC pool reprices after buys/sells, including slippage and fees.
-3. **LP Revenue Engine** — how CareFi can earn LP fees by operating liquidity around the market.
-4. **Spot vs Fair Value Basis** — how AMM spot can be compared to medical-CPI fair value and a future prediction-market signal.
-5. **Market Flywheel** — the roadshow close: CareFi seeds liquidity, creates price discovery, earns fees, and builds the reference layer.
+1. CareFi acquires the initial independent USDiMED float at a discount to medical-CPI fair value.
+2. CareFi uses that inventory to anchor a MEDUSDi / USDC reference pool.
+3. The AMM creates observable spot pricing, basis signals, and LP fee revenue.
+4. CareFi equity accrues from inventory value, LP economics, retained inventory, and market-infrastructure optionality.
 
 ## Run locally
 
@@ -19,12 +16,11 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-## Deploy on Streamlit Cloud
+## Deploy on Streamlit
 
-- Repository: `Oriel-CareFi/carefi-medusdi-market-lab`
+- Branch: `main`
 - Main file path: `app.py`
-- Python version: 3.11+
 
-## Disclaimer
+## Core tagline
 
-This demo uses synthetic inputs and simplified AMM math for investor education. It is not investment advice, not a token sale document, and not a representation of live Uniswap liquidity, pricing, fees, or returns.
+> MEDUSDi is the exposure. The initial float is the wedge. The USDC pool is the market. CareFi equity owns the operating leverage.
