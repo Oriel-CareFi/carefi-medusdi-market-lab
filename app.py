@@ -146,7 +146,8 @@ else:
 
 spot_fv_basis = (price_after / medical_cpi_fv - 1) if medical_cpi_fv else 0
 carefi_trade_fee_share = trade_fee_value_usd * carefi_lp_share
-illustrative_carefi_ev_accretion = max(inventory_accretion, 0) + retained_inventory_fv + lp_revenue_value + reference_option_value
+modeled_carefi_value = max(inventory_accretion, 0) + retained_inventory_fv + lp_revenue_value
+illustrative_carefi_ev_accretion = modeled_carefi_value
 post_money = pre_money + investor_check
 investor_ownership = investor_check / post_money if post_money else 0
 investor_value_from_accretion = illustrative_carefi_ev_accretion * investor_ownership
@@ -168,7 +169,7 @@ c = st.columns(4)
 with c[0]: metric_card("Embedded float accretion", fmt_usd(inventory_accretion), f"{fmt_pct(discount_to_fv)} discount to FV")
 with c[1]: metric_card("CareFi annual LP revenue", fmt_usd(carefi_annual_lp_revenue), f"{fmt_pct(carefi_lp_share)} LP share at {fee_bps} bps")
 with c[2]: metric_card("Retained inventory FV", fmt_usd(retained_inventory_fv), f"{fmt_num(retained_med)} MEDUSDi retained")
-with c[3]: metric_card("Illustrative EV accretion", fmt_usd(illustrative_carefi_ev_accretion), "Inventory + LP value + option value")
+with c[3]: metric_card("Modeled CareFi value", fmt_usd(modeled_carefi_value), "Inventory + retained inventory + LP value")
 
 
 st.subheader("Investment Structure Lens")
@@ -252,19 +253,33 @@ with right:
     st.metric("Total modeled MEDUSDi supply", fmt_num(total_med_supply_after))
     st.metric("CareFi share after organic supply", fmt_pct(carefi_total_supply_share_after))
 
-st.header("Step 5 — Translate Pool Strategy into CareFi Enterprise Value")
-st.markdown("""<div class="section-copy">The MEDUSDi / USDC pool is the anchor mechanism that can create evidence, economics, and credibility for CareFi's broader infrastructure around healthcare inflation and cost-risk surfaces.</div>""", unsafe_allow_html=True)
+st.header("Step 5 — Translate Market Formation into CareFi Value")
+st.markdown("""<div class="section-copy">The MEDUSDi / USDC pool is the operating proof point. It can turn CareFi’s initial float position into retained inventory value, LP fee economics, and evidence for a broader healthcare inflation infrastructure business.</div>""", unsafe_allow_html=True)
+
 ev_components = pd.DataFrame([
     {"Component":"Inventory FV accretion","Value":max(inventory_accretion,0),"Explanation":"Discounted USDiMED float marked to medical-CPI fair value."},
     {"Component":"LP revenue value","Value":lp_revenue_value,"Explanation":"Annual CareFi LP fee revenue capitalized at the selected multiple."},
     {"Component":"Retained inventory FV","Value":retained_inventory_fv,"Explanation":"USDiMED retained after seeding the pool."},
-    {"Component":"Reference-market option value","Value":reference_option_value,"Explanation":"Illustrative value for market infrastructure optionality."},
 ])
 ev_fig = go.Figure()
 ev_fig.add_bar(x=ev_components["Component"], y=ev_components["Value"], text=[fmt_usd(v) for v in ev_components["Value"]], textposition="auto")
-ev_fig.update_layout(title="Illustrative CareFi enterprise-value accretion components", yaxis_title="USD", height=420, margin=dict(l=20, r=20, t=55, b=80))
+ev_fig.update_layout(title="Modeled CareFi value components", yaxis_title="USD", height=420, margin=dict(l=20, r=20, t=55, b=80))
 st.plotly_chart(ev_fig, use_container_width=True)
 st.dataframe(ev_components.assign(Value=ev_components["Value"].map(fmt_usd)), use_container_width=True, hide_index=True)
+
+st.markdown(f"""
+<div class="callout">
+    <b>Strategic infrastructure upside is intentionally separated from the base modeled value.</b><br><br>
+    The base model does not require investors to assign value to the full infrastructure opportunity. It first shows what can be observed: inventory acquired below fair value, MEDUSDi retained by CareFi, and LP economics created by the pool. The broader CareFi upside comes if that pool becomes a credible reference market for healthcare inflation exposure.<br><br>
+    <b>Strategic upside not included in the base chart:</b><br>
+    • live MEDUSDi / USDC price<br>
+    • spot / fair-value basis<br>
+    • trading-volume evidence<br>
+    • future index and reference licensing<br>
+    • structured-product and hedge-market optionality<br><br>
+    Current strategic upside placeholder: <b>{fmt_usd(reference_option_value)}</b>
+</div>
+""", unsafe_allow_html=True)
 
 st.subheader("Investor ownership lens")
 o = st.columns(5)

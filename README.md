@@ -35,10 +35,13 @@ streamlit run app.py
 - Removed “Roadshow” language.
 
 
-## Step 5 value-story update
+## Step 5 value-story correction
 
-The enterprise-value section now separates:
-- **Modeled CareFi value components**: inventory FV accretion, retained inventory FV, and capitalized LP revenue.
-- **Strategic infrastructure upside**: shown separately as a qualitative callout rather than as a bar in the base value chart.
+Step 5 now separates base modeled value from strategic infrastructure upside.
 
-This avoids mixing hard modeled economics with subjective strategic option value.
+Base modeled value chart includes only:
+- Inventory FV accretion
+- LP revenue value
+- Retained inventory FV
+
+Strategic infrastructure upside is shown separately as a callout and is not included in the base modeled value chart.

@@ -45,11 +45,10 @@ Keep the distinction clear:
 - Combined economics must be explicitly documented.
 
 
-## Step 5 value-story update
+## Step 5 value-story correction
 
-Do not mix strategic option value into the same chart as modeled economics. The base chart should include:
-1. Inventory FV accretion.
-2. LP revenue value.
-3. Retained inventory FV.
+Do not show strategic option value in the base value chart. Step 5 must separate:
+1. Modeled CareFi value components.
+2. Strategic infrastructure upside.
 
-Strategic infrastructure upside should be a separate callout and should explain that it is not included in the base modeled value.
+The base chart should include only inventory FV accretion, LP revenue value, and retained inventory FV.
