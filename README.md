@@ -33,3 +33,12 @@ streamlit run app.py
 - Added **Investment Structure Lens** to separate CareFi note/equity exposure from pool/SPV/sidecar exposure.
 - Added **Investor FAQ** addressing whether CareFi investors own the pool, whether pool investors own CareFi equity, and whether combined structures are possible.
 - Removed “Roadshow” language.
+
+
+## Step 5 value-story update
+
+The enterprise-value section now separates:
+- **Modeled CareFi value components**: inventory FV accretion, retained inventory FV, and capitalized LP revenue.
+- **Strategic infrastructure upside**: shown separately as a qualitative callout rather than as a bar in the base value chart.
+
+This avoids mixing hard modeled economics with subjective strategic option value.

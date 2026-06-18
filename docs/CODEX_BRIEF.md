@@ -43,3 +43,13 @@ Keep the distinction clear:
 - CareFi note/equity investors own the company.
 - Pool/SPV/sidecar investors own pool economics only if that structure is offered.
 - Combined economics must be explicitly documented.
+
+
+## Step 5 value-story update
+
+Do not mix strategic option value into the same chart as modeled economics. The base chart should include:
+1. Inventory FV accretion.
+2. LP revenue value.
+3. Retained inventory FV.
+
+Strategic infrastructure upside should be a separate callout and should explain that it is not included in the base modeled value.
