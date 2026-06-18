@@ -52,3 +52,14 @@ Do not show strategic option value in the base value chart. Step 5 must separate
 2. Strategic infrastructure upside.
 
 The base chart should include only inventory FV accretion, LP revenue value, and retained inventory FV.
+
+
+## Broader story additions
+
+Add the following sections:
+1. Market Context.
+2. Demand-Side Use Cases.
+3. Liquidity Development Path.
+4. Step 1 compact acquisition bridge.
+
+Do not add a Kalshi / ForecastEx comparison FAQ.

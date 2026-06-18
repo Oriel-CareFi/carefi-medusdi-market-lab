@@ -163,6 +163,18 @@ st.markdown("""
 
 st.markdown("""<div class="callout"><b>Pool Economics + Platform Equity:</b> the MEDUSDi / USDC pool is the anchor proof point. CareFi equity is the infrastructure upside around healthcare inflation and medical cost-risk surfaces.</div>""", unsafe_allow_html=True)
 
+
+st.header("Market Context")
+st.markdown("""<div class="section-copy">USDiMED is not just a pool asset. It is a tradeable spot proxy for a specific medical-care inflation exposure that has historically behaved differently from headline CPI.</div>""", unsafe_allow_html=True)
+
+context_cols = st.columns(3)
+with context_cols[0]:
+    metric_card("Medical-CPI slice", "~8.3%", "Approximate USDiMED slice per $1.00 USDi split")
+with context_cols[1]:
+    metric_card("Latest index level", "593.239", "BLS CPIMEDNS, May 2026; 1982–84 = 100")
+with context_cols[2]:
+    metric_card("Structural basis", "~70% higher", "Medical care index rise versus all-items CPI since 1990")
+
 st.header("Pool Economics + Platform Equity")
 st.markdown("""<div class="section-copy">A direct MEDUSDi buyer owns the exposure. A CareFi investor owns the operating company positioned to acquire the initial float, anchor the first USDC-facing market, retain strategic inventory, earn LP economics, and commercialize the broader healthcare cost-risk infrastructure layer.</div>""", unsafe_allow_html=True)
 c = st.columns(4)
@@ -195,20 +207,70 @@ with lens_cols[1]:
 
 
 st.divider()
-st.header("Step 1 — CareFi Acquires the Initial USDiMED Float")
-st.markdown("""<div class="section-copy">CareFi's launch wedge is float control: acquire the initial independent USDiMED float at a discount to medical-CPI fair value before the external USDC-facing market forms.</div>""", unsafe_allow_html=True)
-cols = st.columns(5)
-cols[0].metric("Initial float", fmt_num(initial_float))
-cols[1].metric("CareFi captured", fmt_pct(carefi_capture_pct))
-cols[2].metric("Acquisition price", fmt_usd(acquisition_price, 2))
-cols[3].metric("Medical-CPI FV", fmt_usd(medical_cpi_fv, 2))
-cols[4].metric("FV discount", fmt_pct(discount_to_fv))
 
-float_fig = go.Figure()
-float_fig.add_bar(name="Acquisition cost", x=["CareFi float position"], y=[acquisition_cost])
-float_fig.add_bar(name="Medical-CPI fair-value mark", x=["CareFi float position"], y=[fv_mark])
-float_fig.update_layout(barmode="group", title="Discounted float position versus medical-CPI fair value", yaxis_title="USD", height=360, margin=dict(l=20, r=20, t=55, b=30), legend=dict(orientation="h", y=-0.15))
-st.plotly_chart(float_fig, use_container_width=True)
+st.header("Demand-Side Use Cases")
+st.markdown("""<div class="section-copy">The pool is the first observable market node. The broader opportunity is a reference layer for organizations that carry direct healthcare inflation or medical cost exposure.</div>""", unsafe_allow_html=True)
+
+use_cols = st.columns(3)
+with use_cols[0]:
+    metric_card("Hospitals & health systems", "Budget hedge", "Multi-year cost-of-care inflation exposure")
+with use_cols[1]:
+    metric_card("Self-insured employers", "Benefit-cost hedge", "Employee health-benefit inflation exposure")
+with use_cols[2]:
+    metric_card("Insurers & managed care", "Premium basis", "Medical inflation versus embedded rate assumptions")
+
+use_cols2 = st.columns(3)
+with use_cols2[0]:
+    metric_card("Pensions & retiree benefits", "Retiree medical", "Long-horizon healthcare inflation exposure")
+with use_cols2[1]:
+    metric_card("Structured products & swaps", "Reference rate", "Medical-CPI-linked notes, swaps, and bonds")
+with use_cols2[2]:
+    metric_card("Forward curve builders", "3-, 6-, 12-month curve", "Early holders help seed forward market infrastructure")
+
+st.header("Step 1 — Initial Float Acquired Below Medical-CPI Fair Value")
+st.markdown("""<div class="section-copy">CareFi’s launch wedge begins with control of the initial USDiMED float at a discount to its medical-CPI fair-value mark.</div>""", unsafe_allow_html=True)
+
+st.subheader("Acquisition bridge")
+bridge_cols = st.columns(3)
+with bridge_cols[0]:
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="metric-label">Acquisition cost</div>
+        <div class="metric-value">{fmt_usd(acquisition_cost)}</div>
+        <div class="metric-note">{fmt_num(carefi_med_acquired)} USDiMED acquired at {fmt_usd(acquisition_price)} per unit.</div>
+    </div>
+    """, unsafe_allow_html=True)
+with bridge_cols[1]:
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="metric-label">+ Fair-value accretion</div>
+        <div class="metric-value">{fmt_usd(max(inventory_accretion, 0))}</div>
+        <div class="metric-note">Embedded accretion before secondary liquidity fully develops.</div>
+    </div>
+    """, unsafe_allow_html=True)
+with bridge_cols[2]:
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="metric-label">= Medical-CPI FV mark</div>
+        <div class="metric-value">{fmt_usd(float_fv_mark)}</div>
+        <div class="metric-note">Fair-value mark at {fmt_usd(medical_cpi_fv)} per USDiMED.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+st.subheader("The launch wedge: discounted float versus fair value")
+spread_cols = st.columns(3)
+with spread_cols[0]:
+    metric_card("USDiMED acquisition price", fmt_usd(acquisition_price), "Price paid per USDiMED")
+with spread_cols[1]:
+    metric_card("Medical-CPI fair value", fmt_usd(medical_cpi_fv), "Fair-value mark per USDiMED")
+with spread_cols[2]:
+    metric_card("Embedded basis", f"{fmt_usd(medical_cpi_fv - acquisition_price)} / {fmt_pct(discount_to_fv)}", "Fair-value spread captured at launch")
+
+st.markdown(f"""
+<div class="callout">
+    <b>Launch wedge:</b> {fmt_usd(acquisition_cost)} acquisition cost + {fmt_usd(max(inventory_accretion, 0))} fair-value accretion = {fmt_usd(float_fv_mark)} medical-CPI fair-value mark.
+</div>
+""", unsafe_allow_html=True)
 
 st.header("Step 2 — CareFi Seeds the MEDUSDi / USDC Reference Pool")
 st.markdown("""<div class="section-copy">CareFi uses part of its USDiMED inventory plus USDC to create the first external, observable spot price for healthcare inflation exposure. The AMM converts trading flow into price discovery, basis signals, and LP fee revenue.</div>""", unsafe_allow_html=True)
@@ -238,7 +300,27 @@ st.plotly_chart(amm_fig, use_container_width=True)
 
 left, right = st.columns(2)
 with left:
-    st.header("Step 3 — LP Revenue Formation")
+    
+st.header("Liquidity Development Path")
+st.markdown("""<div class="section-copy">The market does not need to arrive fully formed. The sequence is float control, external price formation, specialist flow, and then organic supply expansion through future slicing.</div>""", unsafe_allow_html=True)
+
+path_cols = st.columns(4)
+with path_cols[0]:
+    metric_card("1. Initial allocation", "Scarce float", "CareFi / anchor holders acquire early USDiMED inventory")
+with path_cols[1]:
+    metric_card("2. Reference pool", "External spot", "MEDUSDi / USDC establishes a visible market price")
+with path_cols[2]:
+    metric_card("3. Specialist flow", "Basis trading", "Traders compare spot price, fair value, and expected medical CPI")
+with path_cols[3]:
+    metric_card("4. Organic slicing", "Supply growth", "USDi holders create new MEDUSDi supply as split/recombine develops")
+
+st.markdown(f"""
+<div class="callout">
+    <b>Organic slicing math:</b> at an assumed {fmt_pct(med_slice_pct)} medical slice, every {fmt_usd(100)} of USDi split can create approximately {fmt_usd(100 * med_slice_pct)} of MEDUSDi supply.
+</div>
+""", unsafe_allow_html=True)
+
+st.header("Step 3 — LP Revenue Formation")
     st.markdown("""<div class="section-copy">Trading volume generates fees. CareFi's economics are a function of fee tier, total pool volume, and CareFi's share of active liquidity.</div>""", unsafe_allow_html=True)
     st.metric("Monthly trading volume", fmt_usd(monthly_volume))
     st.metric("Gross annual LP fees", fmt_usd(annual_lp_fees))
@@ -324,5 +406,11 @@ with st.expander("9. Why would investors choose CareFi instead of just buying ME
 
 with st.expander("10. What is the long-term infrastructure opportunity?", expanded=False):
     st.write("The MEDUSDi / USDC pool can become an early observable reference point for healthcare inflation exposure. From there, CareFi can build fair-value surfaces, basis analytics, listed contract support, structured products, data/reference licensing, and cost-risk tools for providers, payers, employers, reinsurers, and healthcare investors.")
+
+st.markdown("""
+<div class="section-copy" style="font-size:0.85rem; margin-top:1.5rem;">
+    <b>Model limitation:</b> This app is illustrative and assumes future market development. USDiMED is a novel instrument with limited or no trading history. Secondary liquidity, split/recombine functionality, market-maker participation, and regulatory treatment are not guaranteed.
+</div>
+""", unsafe_allow_html=True)
 
 st.caption("Illustrative scenario model only. This is not investment advice, a valuation opinion, a guarantee of liquidity, or a projection of returns.")
