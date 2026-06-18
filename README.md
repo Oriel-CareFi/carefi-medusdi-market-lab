@@ -1,4 +1,4 @@
-# CareFi MEDUSDi Float-to-Market Lab
+# CareFi MEDUSDi Market Model
 
 **The pool anchors the market. The equity owns the infrastructure.**
 
@@ -55,3 +55,8 @@ Added Market Context, Demand-Side Use Cases, Liquidity Development Path, and com
 ## v9 FAQ #4 update
 
 FAQ #4 now clarifies that combined CareFi equity/pool exposure must be intentionally structured and that any pass-through USDiMED exposure should preserve underlying transfer, liquidity, holding-period, and market-development limitations unless otherwise approved and documented.
+
+
+## v10 copy refinement
+
+Changed investor-facing label from "Lab" to **CareFi MEDUSDi Market Model** and shortened Step 4 to **Step 4 — Organic Supply** to avoid awkward line breaks in the two-column layout.

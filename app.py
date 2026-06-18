@@ -12,7 +12,7 @@ APP_DIR = Path(__file__).parent
 SCENARIO_PATH = APP_DIR / "data" / "scenarios.csv"
 LOGO_PATH = APP_DIR / "assets" / "carefi_logo.jpg"
 
-st.set_page_config(page_title="CareFi MEDUSDi Float-to-Market Lab", page_icon="➕", layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(page_title="CareFi MEDUSDi Market Model", page_icon="➕", layout="wide", initial_sidebar_state="expanded")
 
 st.markdown("""
 <style>
@@ -155,7 +155,7 @@ check_coverage = investor_value_from_accretion / investor_check if investor_chec
 
 st.markdown("""
 <div class="carefi-hero">
-<div class="carefi-eyebrow">CareFi MEDUSDi Float-to-Market Lab</div>
+<div class="carefi-eyebrow">CareFi MEDUSDi Market Model</div>
 <div class="carefi-title">The pool anchors the market. The equity owns the infrastructure.</div>
 <div class="carefi-subtitle">Model how CareFi can acquire discounted USDiMED float, seed the MEDUSDi / USDC reference pool, earn anchor LP economics, and build enterprise value around healthcare inflation and cost-risk infrastructure.</div>
 </div>
@@ -306,8 +306,8 @@ with left:
     st.metric("LP revenue value", fmt_usd(lp_revenue_value), f"{revenue_multiple}x multiple")
 
 with right:
-    st.header("Step 4 — Organic USDiMED Supply")
-    st.markdown("""<div class="section-copy">CareFi's initial float advantage is strongest at launch. Over time, additional MEDUSDi supply can emerge when third parties buy USDi and create medical slices.</div>""", unsafe_allow_html=True)
+    st.header("Step 4 — Organic Supply")
+    st.markdown("""<div class="section-copy">CareFi's initial float advantage is strongest at launch. Over time, new MEDUSDi supply can emerge when third parties buy USDi and create medical slices.</div>""", unsafe_allow_html=True)
     st.metric("Organic USDi sliced", fmt_usd(organic_usdi_sliced))
     st.metric("New MEDUSDi supply", fmt_num(organic_med_supply), f"{fmt_pct(med_slice_pct)} medical slice")
     st.metric("Total modeled MEDUSDi supply", fmt_num(total_med_supply_after))
