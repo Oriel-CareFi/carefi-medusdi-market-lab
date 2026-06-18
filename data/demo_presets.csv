@@ -1,5 +1,5 @@
 scenario,usdc_reserve,medusdi_reserve,monthly_volume,carefi_lp_share,fee_bps,medical_cpi_fv
-Teaser Launch,500000,500000,1000000,0.80,30,1.05
-Early Niche Market,1000000,1000000,10000000,0.70,30,1.05
-Real Category Signal,2500000,2500000,50000000,0.50,30,1.05
-Institutional Proxy,10000000,10000000,250000000,0.35,30,1.05
+Launch Liquidity Formation,500000,500000,1000000,0.80,30,1.05
+Specialist Market Adoption,1000000,1000000,10000000,0.70,30,1.05
+Medical Inflation Price Discovery,2500000,2500000,50000000,0.50,30,1.05
+Institutional Reference Market,10000000,10000000,250000000,0.35,30,1.05
