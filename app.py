@@ -85,8 +85,8 @@ scenarios = load_scenarios()
 with st.sidebar:
     if LOGO_PATH.exists():
         st.image(Image.open(LOGO_PATH), use_container_width=True)
-    st.markdown("## Strategy controls")
-    st.caption("Illustrative scenario model for investor discussion.")
+    st.markdown("## CareFi Value Scenario")
+    st.caption("Model how discounted USDiMED float, anchor LP economics, and CareFi equity value interact.")
     scenario_name = st.selectbox("Scenario preset", scenarios["scenario"].tolist(), index=1)
     row = scenarios.loc[scenarios["scenario"] == scenario_name].iloc[0]
     with st.expander("What this scenario represents", expanded=True):
@@ -162,13 +162,36 @@ st.markdown("""
 
 st.markdown("""<div class="callout"><b>Double-bang thesis:</b> a CareFi investment can provide exposure to the MEDUSDi / USDC anchor LP strategy plus equity in the company building market infrastructure around healthcare inflation and medical cost-risk surfaces.</div>""", unsafe_allow_html=True)
 
-st.header("Two Engines of CareFi Value")
+st.header("Pool Economics + Platform Equity")
 st.markdown("""<div class="section-copy">A direct MEDUSDi buyer owns the exposure. A CareFi investor owns the operating company positioned to acquire the initial float, anchor the first USDC-facing market, retain strategic inventory, earn LP economics, and commercialize the broader healthcare cost-risk infrastructure layer.</div>""", unsafe_allow_html=True)
 c = st.columns(4)
 with c[0]: metric_card("Embedded float accretion", fmt_usd(inventory_accretion), f"{fmt_pct(discount_to_fv)} discount to FV")
 with c[1]: metric_card("CareFi annual LP revenue", fmt_usd(carefi_annual_lp_revenue), f"{fmt_pct(carefi_lp_share)} LP share at {fee_bps} bps")
 with c[2]: metric_card("Retained inventory FV", fmt_usd(retained_inventory_fv), f"{fmt_num(retained_med)} MEDUSDi retained")
 with c[3]: metric_card("Illustrative EV accretion", fmt_usd(illustrative_carefi_ev_accretion), "Inventory + LP value + option value")
+
+
+st.subheader("Investment Structure Lens")
+st.markdown("""<div class="section-copy">The model shows both value engines, but the investor's actual entitlement depends on the offering structure. CareFi note/equity investors, pool/SPV investors, and combined-structure investors may have different rights.</div>""", unsafe_allow_html=True)
+
+lens_cols = st.columns(2)
+with lens_cols[0]:
+    st.markdown("""
+    <div class="metric-card">
+        <div class="metric-label">CareFi note / equity investment</div>
+        <div class="metric-value">Platform equity</div>
+        <div class="metric-note">Exposure to CareFi as the operating company building healthcare inflation and cost-risk market infrastructure. Pool economics accrue only to the extent they are retained by, contracted to, or otherwise benefit CareFi.</div>
+    </div>
+    """, unsafe_allow_html=True)
+with lens_cols[1]:
+    st.markdown("""
+    <div class="metric-card">
+        <div class="metric-label">Pool / SPV / sidecar investment</div>
+        <div class="metric-value">Pool economics</div>
+        <div class="metric-note">Direct or linked exposure to the MEDUSDi / USDC liquidity strategy if offered through a separate vehicle. CareFi equity is separate unless expressly included by the offering documents.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
 
 st.divider()
 st.header("Step 1 — CareFi Acquires the Initial USDiMED Float")
@@ -252,4 +275,39 @@ o[3].metric("Value from modeled EV accretion", fmt_usd(investor_value_from_accre
 o[4].metric("Check coverage", f"{check_coverage:,.2f}x")
 
 st.markdown("""<div class="callout"><b>Investor takeaway:</b> a MEDUSDi buyer owns the exposure. A CareFi investor owns the company positioned to acquire the initial discounted float, anchor the MEDUSDi / USDC market, earn LP economics, retain strategic inventory, and build the infrastructure layer around healthcare inflation and cost-risk pricing.</div>""", unsafe_allow_html=True)
+
+
+st.header("Investor FAQ")
+st.markdown("""<div class="section-copy">Key questions about the float strategy, the MEDUSDi / USDC pool, and CareFi equity exposure.</div>""", unsafe_allow_html=True)
+
+with st.expander("1. What is the difference between buying MEDUSDi and investing in CareFi?", expanded=False):
+    st.write("Buying MEDUSDi gives direct exposure to medical-inflation-linked value through the token itself. Investing in CareFi gives exposure to the operating company building the market infrastructure around that exposure, including the initial float strategy, the MEDUSDi / USDC reference pool, LP economics retained by CareFi, retained inventory, data/reference products, and future healthcare cost-risk surfaces.")
+
+with st.expander("2. Does a CareFi note or equity investor directly own the MEDUSDi / USDC pool?", expanded=False):
+    st.write("Not automatically. CareFi note or equity investors own exposure to CareFi as the operating company. Any direct pool, SPV, sidecar, or warrant exposure would need to be structured separately and clearly documented. The model shows how the pool may contribute to CareFi enterprise value, but legal and economic entitlement depends on the offering structure.")
+
+with st.expander("3. Does an investor in the MEDUSDi / USDC pool also own equity in CareFi?", expanded=False):
+    st.write("Not automatically. An investment in a MEDUSDi / USDC pool, SPV, or sidecar would generally provide exposure to the pool economics defined in that vehicle — for example, MEDUSDi exposure, USDC-paired liquidity, LP fees, inventory appreciation or depreciation, and basis movement. CareFi equity is separate unless the offering expressly includes equity, a note, a warrant, or another contractual right to participate in CareFi.")
+
+with st.expander("4. Could an investor receive both pool exposure and CareFi equity upside?", expanded=False):
+    st.write("Yes, if structured intentionally. For example, CareFi could offer a note, sidecar, or warrant-linked structure where an investor receives direct or linked exposure to the MEDUSDi / USDC pool plus a defined equity or equity-like interest in CareFi. The model shows both pools of value, but the investor's actual entitlement depends on the legal structure of the offering.")
+
+with st.expander("5. Why does control of the initial USDiMED float matter?", expanded=False):
+    st.write("Early float control gives CareFi the ability to seed the first external USDC-facing market from a position acquired at or below fair value. That creates a launch wedge: inventory accretion, market formation, price discovery, and potential LP economics before broader organic supply develops.")
+
+with st.expander("6. How does the Uniswap-style pool create value?", expanded=False):
+    st.write("The pool creates a visible USDC price for MEDUSDi, enables third-party trading, generates LP fees, and produces a spot/fair-value basis that can become useful for future reference products. The pool is the anchor proof point for the broader market infrastructure thesis.")
+
+with st.expander("7. What happens when more USDi holders create their own MEDUSDi slices?", expanded=False):
+    st.write("Additional slicing can expand supply and deepen the market. That may reduce CareFi's percentage share of total MEDUSDi supply over time, but it can also improve liquidity, credibility, and reference-market usefulness. CareFi's goal is not to permanently control all supply; it is to own the launch wedge and help form the market.")
+
+with st.expander("8. Is the app assuming guaranteed trading volume or returns?", expanded=False):
+    st.write("No. The model is illustrative. It lets investors test assumptions about float acquisition, pool formation, trading volume, LP fees, and CareFi enterprise-value accretion. It should not be read as a projection, guarantee, valuation opinion, or investment advice.")
+
+with st.expander("9. Why would investors choose CareFi instead of just buying MEDUSDi?", expanded=False):
+    st.write("MEDUSDi is the exposure. CareFi is the company positioned to build and monetize the market layer around that exposure. A CareFi investor may benefit from multiple engines: discounted inventory, anchor LP economics retained by CareFi, retained MEDUSDi exposure, reference-market credibility, and future infrastructure products around healthcare inflation and cost-risk pricing.")
+
+with st.expander("10. What is the long-term infrastructure opportunity?", expanded=False):
+    st.write("The MEDUSDi / USDC pool can become an early observable reference point for healthcare inflation exposure. From there, CareFi can build fair-value surfaces, basis analytics, listed contract support, structured products, data/reference licensing, and cost-risk tools for providers, payers, employers, reinsurers, and healthcare investors.")
+
 st.caption("Illustrative scenario model only. This is not investment advice, a valuation opinion, a guarantee of liquidity, or a projection of returns.")

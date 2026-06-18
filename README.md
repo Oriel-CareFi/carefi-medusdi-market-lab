@@ -24,3 +24,12 @@ streamlit run app.py
 ## Core tagline
 
 > MEDUSDi is the exposure. The initial float is the wedge. The USDC pool is the market. CareFi equity owns the operating leverage.
+
+
+## Latest investor-facing updates
+
+- Sidebar renamed to **CareFi Value Scenario**.
+- Primary framing changed to **Pool Economics + Platform Equity**.
+- Added **Investment Structure Lens** to separate CareFi note/equity exposure from pool/SPV/sidecar exposure.
+- Added **Investor FAQ** addressing whether CareFi investors own the pool, whether pool investors own CareFi equity, and whether combined structures are possible.
+- Removed “Roadshow” language.

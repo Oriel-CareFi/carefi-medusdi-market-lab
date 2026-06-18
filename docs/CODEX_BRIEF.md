@@ -23,3 +23,23 @@ Required modules:
 - Investor Ownership Lens
 
 Avoid implying guaranteed returns, artificial volume, or guaranteed liquidity.
+
+
+## Latest required changes
+
+Use these labels:
+- Sidebar: **CareFi Value Scenario**
+- Main section: **Pool Economics + Platform Equity**
+- Structure section: **Investment Structure Lens**
+- FAQ section: **Investor FAQ**
+
+FAQ must include:
+1. Difference between buying MEDUSDi and investing in CareFi.
+2. Whether a CareFi note/equity investor directly owns the pool.
+3. Whether a pool/SPV investor also owns CareFi equity.
+4. Whether a combined pool + CareFi equity structure is possible.
+
+Keep the distinction clear:
+- CareFi note/equity investors own the company.
+- Pool/SPV/sidecar investors own pool economics only if that structure is offered.
+- Combined economics must be explicitly documented.
