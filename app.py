@@ -163,7 +163,6 @@ st.markdown("""
 
 st.markdown("""<div class="callout"><b>Pool Economics + Platform Equity:</b> the MEDUSDi / USDC pool is the anchor proof point. CareFi equity is the infrastructure upside around healthcare inflation and medical cost-risk surfaces.</div>""", unsafe_allow_html=True)
 
-
 st.header("Market Context")
 st.markdown("""<div class="section-copy">USDiMED is not just a pool asset. It is a tradeable spot proxy for a specific medical-care inflation exposure that has historically behaved differently from headline CPI.</div>""", unsafe_allow_html=True)
 
@@ -207,7 +206,6 @@ with lens_cols[1]:
 
 
 st.divider()
-
 st.header("Demand-Side Use Cases")
 st.markdown("""<div class="section-copy">The pool is the first observable market node. The broader opportunity is a reference layer for organizations that carry direct healthcare inflation or medical cost exposure.</div>""", unsafe_allow_html=True)
 
@@ -300,7 +298,21 @@ st.plotly_chart(amm_fig, use_container_width=True)
 
 left, right = st.columns(2)
 with left:
-    
+    st.header("Step 3 — LP Revenue Formation")
+    st.markdown("""<div class="section-copy">Trading volume generates fees. CareFi's economics are a function of fee tier, total pool volume, and CareFi's share of active liquidity.</div>""", unsafe_allow_html=True)
+    st.metric("Monthly trading volume", fmt_usd(monthly_volume))
+    st.metric("Gross annual LP fees", fmt_usd(annual_lp_fees))
+    st.metric("CareFi annual LP revenue", fmt_usd(carefi_annual_lp_revenue))
+    st.metric("LP revenue value", fmt_usd(lp_revenue_value), f"{revenue_multiple}x multiple")
+
+with right:
+    st.header("Step 4 — Organic USDiMED Supply")
+    st.markdown("""<div class="section-copy">CareFi's initial float advantage is strongest at launch. Over time, additional MEDUSDi supply can emerge when third parties buy USDi and create medical slices.</div>""", unsafe_allow_html=True)
+    st.metric("Organic USDi sliced", fmt_usd(organic_usdi_sliced))
+    st.metric("New MEDUSDi supply", fmt_num(organic_med_supply), f"{fmt_pct(med_slice_pct)} medical slice")
+    st.metric("Total modeled MEDUSDi supply", fmt_num(total_med_supply_after))
+    st.metric("CareFi share after organic supply", fmt_pct(carefi_total_supply_share_after))
+
 st.header("Liquidity Development Path")
 st.markdown("""<div class="section-copy">The market does not need to arrive fully formed. The sequence is float control, external price formation, specialist flow, and then organic supply expansion through future slicing.</div>""", unsafe_allow_html=True)
 
@@ -319,21 +331,6 @@ st.markdown(f"""
     <b>Organic slicing math:</b> at an assumed {fmt_pct(med_slice_pct)} medical slice, every {fmt_usd(100)} of USDi split can create approximately {fmt_usd(100 * med_slice_pct)} of MEDUSDi supply.
 </div>
 """, unsafe_allow_html=True)
-
-st.header("Step 3 — LP Revenue Formation")
-    st.markdown("""<div class="section-copy">Trading volume generates fees. CareFi's economics are a function of fee tier, total pool volume, and CareFi's share of active liquidity.</div>""", unsafe_allow_html=True)
-    st.metric("Monthly trading volume", fmt_usd(monthly_volume))
-    st.metric("Gross annual LP fees", fmt_usd(annual_lp_fees))
-    st.metric("CareFi annual LP revenue", fmt_usd(carefi_annual_lp_revenue))
-    st.metric("LP revenue value", fmt_usd(lp_revenue_value), f"{revenue_multiple}x multiple")
-
-with right:
-    st.header("Step 4 — Organic USDiMED Supply")
-    st.markdown("""<div class="section-copy">CareFi's initial float advantage is strongest at launch. Over time, additional MEDUSDi supply can emerge when third parties buy USDi and create medical slices.</div>""", unsafe_allow_html=True)
-    st.metric("Organic USDi sliced", fmt_usd(organic_usdi_sliced))
-    st.metric("New MEDUSDi supply", fmt_num(organic_med_supply), f"{fmt_pct(med_slice_pct)} medical slice")
-    st.metric("Total modeled MEDUSDi supply", fmt_num(total_med_supply_after))
-    st.metric("CareFi share after organic supply", fmt_pct(carefi_total_supply_share_after))
 
 st.header("Step 5 — Translate Market Formation into CareFi Value")
 st.markdown("""<div class="section-copy">The MEDUSDi / USDC pool is the operating proof point. It can turn CareFi’s initial float position into retained inventory value, LP fee economics, and evidence for a broader healthcare inflation infrastructure business.</div>""", unsafe_allow_html=True)

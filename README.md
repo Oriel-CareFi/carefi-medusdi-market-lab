@@ -47,13 +47,6 @@ Base modeled value chart includes only:
 Strategic infrastructure upside is shown separately as a callout and is not included in the base modeled value chart.
 
 
-## Broader story additions
+## v7 update
 
-Added:
-- Market Context: ~8.3% medical-CPI slice, 593.239 latest CPIMEDNS index level, and long-run medical-care CPI basis.
-- Demand-Side Use Cases: hospitals, employers, insurers, pensions, structured products/swaps, and forward curve builders.
-- Liquidity Development Path: initial allocation → reference pool → specialist flow → organic slicing.
-- Step 1 acquisition bridge replacing the large two-bar chart.
-
-Not added:
-- Kalshi / ForecastEx comparison FAQ, which should be handled one-on-one.
+Added Market Context, Demand-Side Use Cases, Liquidity Development Path, and compact Step 1 acquisition bridge. The Kalshi / ForecastEx comparison FAQ is intentionally not included.

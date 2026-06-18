@@ -54,12 +54,6 @@ Do not show strategic option value in the base value chart. Step 5 must separate
 The base chart should include only inventory FV accretion, LP revenue value, and retained inventory FV.
 
 
-## Broader story additions
+## v7 update
 
-Add the following sections:
-1. Market Context.
-2. Demand-Side Use Cases.
-3. Liquidity Development Path.
-4. Step 1 compact acquisition bridge.
-
-Do not add a Kalshi / ForecastEx comparison FAQ.
+Added Market Context, Demand-Side Use Cases, Liquidity Development Path, and compact Step 1 acquisition bridge. The Kalshi / ForecastEx comparison FAQ is intentionally not included.
