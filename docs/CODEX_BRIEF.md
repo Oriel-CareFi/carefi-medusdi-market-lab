@@ -57,3 +57,8 @@ The base chart should include only inventory FV accretion, LP revenue value, and
 ## v7 update
 
 Added Market Context, Demand-Side Use Cases, Liquidity Development Path, and compact Step 1 acquisition bridge. The Kalshi / ForecastEx comparison FAQ is intentionally not included.
+
+
+## v9 FAQ #4 update
+
+FAQ #4 now clarifies that combined CareFi equity/pool exposure must be intentionally structured and that any pass-through USDiMED exposure should preserve underlying transfer, liquidity, holding-period, and market-development limitations unless otherwise approved and documented.
