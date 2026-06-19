@@ -68,3 +68,8 @@ Added:
 1. Scenario Compare — compares presets across modeled CareFi value, LP revenue, retained inventory, total supply, and CareFi supply share.
 2. Market Formation Timeline — shows float capture → spot pool → basis flow → organic supply → platform value.
 3. What Drives CareFi Value? — sensitivity/tornado-style view for volume, LP share, revenue multiple, retained inventory, and acquisition price.
+
+
+## v12 CSV parse fix
+
+The scenario CSV has been rewritten with quoted description fields and verified with `pd.read_csv(data/scenarios.csv)` to prevent Pandas parser errors.
