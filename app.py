@@ -50,6 +50,55 @@ def fmt_pct(x: float, decimals: int = 1) -> str:
 def metric_card(label: str, value: str, note: str = "") -> None:
     st.markdown(f"""<div class="metric-card"><div class="metric-label">{label}</div><div class="metric-value">{value}</div><div class="metric-note">{note}</div></div>""", unsafe_allow_html=True)
 
+def scenario_metrics(row):
+    initial_float_s = float(row["initial_float"])
+    carefi_capture_pct_s = float(row["carefi_capture_pct"])
+    acquisition_price_s = float(row["acquisition_price"])
+    medical_cpi_fv_s = float(row["medical_cpi_fv"])
+    pool_medusdi_s = float(row["pool_medusdi"])
+    monthly_volume_s = float(row["monthly_volume"])
+    fee_bps_s = float(row["fee_bps"])
+    carefi_lp_share_s = float(row["carefi_lp_share"])
+    organic_usdi_sliced_s = float(row["organic_usdi_sliced"])
+    med_slice_pct_s = float(row["med_slice_pct"])
+    revenue_multiple_s = float(row["revenue_multiple"])
+
+    carefi_med_acquired_s = initial_float_s * carefi_capture_pct_s
+    acquisition_cost_s = carefi_med_acquired_s * acquisition_price_s
+    fv_mark_s = carefi_med_acquired_s * medical_cpi_fv_s
+    inventory_accretion_s = fv_mark_s - acquisition_cost_s
+    retained_med_s = max(carefi_med_acquired_s - pool_medusdi_s, 0)
+    retained_inventory_fv_s = retained_med_s * medical_cpi_fv_s
+    annual_lp_fees_s = monthly_volume_s * (fee_bps_s / 10000) * 12
+    carefi_annual_lp_revenue_s = annual_lp_fees_s * carefi_lp_share_s
+    lp_revenue_value_s = carefi_annual_lp_revenue_s * revenue_multiple_s
+    organic_med_supply_s = organic_usdi_sliced_s * med_slice_pct_s
+    total_supply_s = initial_float_s + organic_med_supply_s
+    carefi_supply_share_s = carefi_med_acquired_s / total_supply_s if total_supply_s else 0
+    modeled_value_s = max(inventory_accretion_s, 0) + retained_inventory_fv_s + lp_revenue_value_s
+
+    return {
+        "Scenario": row["scenario"],
+        "Modeled CareFi value": modeled_value_s,
+        "Annual LP revenue": carefi_annual_lp_revenue_s,
+        "Retained inventory FV": retained_inventory_fv_s,
+        "Total MEDUSDi supply": total_supply_s,
+        "CareFi supply share": carefi_supply_share_s,
+        "LP revenue value": lp_revenue_value_s,
+        "Embedded accretion": max(inventory_accretion_s, 0),
+    }
+
+def compute_modeled_value_for_sensitivity(monthly_volume_v, carefi_lp_share_v, revenue_multiple_v, retained_med_v, acquisition_price_v):
+    acquisition_cost_v = carefi_med_acquired * acquisition_price_v
+    fv_mark_v = carefi_med_acquired * medical_cpi_fv
+    inventory_accretion_v = fv_mark_v - acquisition_cost_v
+    retained_inventory_fv_v = max(retained_med_v, 0) * medical_cpi_fv
+    annual_lp_fees_v = monthly_volume_v * (fee_bps / 10000) * 12
+    carefi_annual_lp_revenue_v = annual_lp_fees_v * carefi_lp_share_v
+    lp_revenue_value_v = carefi_annual_lp_revenue_v * revenue_multiple_v
+    return max(inventory_accretion_v, 0) + retained_inventory_fv_v + lp_revenue_value_v
+
+
 def cp_buy(usdc_reserve, med_reserve, usdc_in, fee_bps):
     fee = fee_bps / 10000
     usdc_after_fee = usdc_in * (1 - fee)
@@ -173,6 +222,56 @@ with context_cols[1]:
     metric_card("Latest index level", "593.239", "BLS CPIMEDNS, May 2026; 1982–84 = 100")
 with context_cols[2]:
     metric_card("Structural basis", "~70% higher", "Medical care index rise versus all-items CPI since 1990")
+
+
+st.header("Market Formation Timeline")
+st.markdown("""<div class="section-copy">The strategy is a sequence: scarce float becomes an external spot market, the spot market creates basis and fee economics, and the reference point creates platform value.</div>""", unsafe_allow_html=True)
+
+timeline_cols = st.columns(5)
+with timeline_cols[0]:
+    metric_card("1. Float capture", "Scarce inventory", "CareFi anchors the initial independent USDiMED position")
+with timeline_cols[1]:
+    metric_card("2. Spot pool", "USDC price", "MEDUSDi / USDC establishes an observable market")
+with timeline_cols[2]:
+    metric_card("3. Basis flow", "Price discovery", "Specialists compare spot, fair value, and medical CPI expectations")
+with timeline_cols[3]:
+    metric_card("4. Organic supply", "Slicing expands float", "USDi holders can create new MEDUSDi supply as the architecture develops")
+with timeline_cols[4]:
+    metric_card("5. Platform value", "Infrastructure layer", "CareFi uses the proof point to build reference, curve, and hedge products")
+
+st.markdown("""
+<div class="callout">
+    <b>Flywheel:</b> early float control → MEDUSDi / USDC spot price → observable basis → specialist flow → organic slicing → deeper liquidity → stronger CareFi infrastructure story.
+</div>
+""", unsafe_allow_html=True)
+
+
+st.header("Scenario Compare")
+st.markdown("""<div class="section-copy">Compare the full market-formation path across presets. The progression shows how value shifts from initial inventory advantage toward LP revenue, retained inventory, and broader supply formation.</div>""", unsafe_allow_html=True)
+
+compare_df = pd.DataFrame([scenario_metrics(r) for _, r in scenarios.iterrows()])
+compare_display = compare_df.copy()
+for col in ["Modeled CareFi value", "Annual LP revenue", "Retained inventory FV", "Total MEDUSDi supply", "LP revenue value", "Embedded accretion"]:
+    compare_display[col] = compare_display[col].map(fmt_usd)
+compare_display["CareFi supply share"] = compare_display["CareFi supply share"].map(fmt_pct)
+st.dataframe(
+    compare_display[["Scenario", "Modeled CareFi value", "Annual LP revenue", "Retained inventory FV", "Total MEDUSDi supply", "CareFi supply share"]],
+    use_container_width=True,
+    hide_index=True,
+)
+
+compare_fig = go.Figure()
+compare_fig.add_bar(x=compare_df["Scenario"], y=compare_df["Modeled CareFi value"], name="Modeled CareFi value")
+compare_fig.add_scatter(x=compare_df["Scenario"], y=compare_df["Annual LP revenue"], mode="lines+markers", name="Annual LP revenue", yaxis="y2")
+compare_fig.update_layout(
+    title="Scenario progression: value and fee formation",
+    yaxis=dict(title="Modeled CareFi value", tickformat="$,.0f"),
+    yaxis2=dict(title="Annual LP revenue", overlaying="y", side="right", tickformat="$,.0f"),
+    height=430,
+    margin=dict(l=20, r=20, t=55, b=95),
+    legend=dict(orientation="h", y=-0.25),
+)
+st.plotly_chart(compare_fig, use_container_width=True)
 
 st.header("Pool Economics + Platform Equity")
 st.markdown("""<div class="section-copy">A direct MEDUSDi buyer owns the exposure. A CareFi investor owns the operating company positioned to acquire the initial float, anchor the first USDC-facing market, retain strategic inventory, earn LP economics, and commercialize the broader healthcare cost-risk infrastructure layer.</div>""", unsafe_allow_html=True)
@@ -370,6 +469,76 @@ o[4].metric("Check coverage", f"{check_coverage:,.2f}x")
 
 st.markdown("""<div class="callout"><b>Investor takeaway:</b> a MEDUSDi buyer owns the exposure. A CareFi investor owns the company positioned to acquire the initial discounted float, anchor the MEDUSDi / USDC market, earn LP economics, retain strategic inventory, and build the infrastructure layer around healthcare inflation and cost-risk pricing.</div>""", unsafe_allow_html=True)
 
+
+
+st.header("What Drives CareFi Value?")
+st.markdown("""<div class="section-copy">This sensitivity view shows which assumptions move modeled CareFi value most. It keeps the conversation focused on the drivers that matter: volume, LP share, revenue multiple, retained inventory, and acquisition basis.</div>""", unsafe_allow_html=True)
+
+baseline_value = modeled_carefi_value
+sensitivity_rows = []
+
+drivers = [
+    ("Monthly trading volume", monthly_volume * 0.5, monthly_volume * 1.5, "monthly_volume"),
+    ("CareFi LP share", max(carefi_lp_share - 0.15, 0), min(carefi_lp_share + 0.15, 1), "carefi_lp_share"),
+    ("LP revenue multiple", max(revenue_multiple - 3, 1), revenue_multiple + 3, "revenue_multiple"),
+    ("Retained MEDUSDi inventory", retained_med * 0.75, retained_med * 1.25, "retained_med"),
+    ("Acquisition price", max(acquisition_price - 0.03, 0), acquisition_price + 0.03, "acquisition_price"),
+]
+
+for label, low, high, key in drivers:
+    kwargs_low = dict(monthly_volume_v=monthly_volume, carefi_lp_share_v=carefi_lp_share, revenue_multiple_v=revenue_multiple, retained_med_v=retained_med, acquisition_price_v=acquisition_price)
+    kwargs_high = kwargs_low.copy()
+    if key == "monthly_volume":
+        kwargs_low["monthly_volume_v"] = low
+        kwargs_high["monthly_volume_v"] = high
+    elif key == "carefi_lp_share":
+        kwargs_low["carefi_lp_share_v"] = low
+        kwargs_high["carefi_lp_share_v"] = high
+    elif key == "revenue_multiple":
+        kwargs_low["revenue_multiple_v"] = low
+        kwargs_high["revenue_multiple_v"] = high
+    elif key == "retained_med":
+        kwargs_low["retained_med_v"] = low
+        kwargs_high["retained_med_v"] = high
+    elif key == "acquisition_price":
+        kwargs_low["acquisition_price_v"] = low
+        kwargs_high["acquisition_price_v"] = high
+
+    low_value = compute_modeled_value_for_sensitivity(**kwargs_low)
+    high_value = compute_modeled_value_for_sensitivity(**kwargs_high)
+    sensitivity_rows.append({"Driver": label, "Low case": low_value, "Base": baseline_value, "High case": high_value, "Range": abs(high_value - low_value)})
+
+sens_df = pd.DataFrame(sensitivity_rows).sort_values("Range", ascending=True)
+
+sens_fig = go.Figure()
+sens_fig.add_bar(
+    y=sens_df["Driver"],
+    x=sens_df["High case"] - sens_df["Low case"],
+    base=sens_df["Low case"],
+    orientation="h",
+    text=[f"{fmt_usd(lo)} → {fmt_usd(hi)}" for lo, hi in zip(sens_df["Low case"], sens_df["High case"])],
+    textposition="auto",
+)
+sens_fig.add_vline(x=baseline_value, line_dash="dash", annotation_text="Base", annotation_position="top")
+sens_fig.update_layout(
+    title="Modeled value sensitivity by driver",
+    xaxis_title="Modeled CareFi value",
+    yaxis_title="",
+    height=420,
+    margin=dict(l=20, r=20, t=55, b=40),
+)
+st.plotly_chart(sens_fig, use_container_width=True)
+
+sens_display = sens_df.sort_values("Range", ascending=False).copy()
+for col in ["Low case", "Base", "High case", "Range"]:
+    sens_display[col] = sens_display[col].map(fmt_usd)
+st.dataframe(sens_display[["Driver", "Low case", "Base", "High case", "Range"]], use_container_width=True, hide_index=True)
+
+st.markdown("""
+<div class="callout">
+    <b>Investor read-through:</b> the model should not hinge on the initial float discount alone. The larger drivers are whether the pool attracts volume, whether CareFi retains meaningful LP participation, and whether the spot market becomes credible enough to support infrastructure products.
+</div>
+""", unsafe_allow_html=True)
 
 st.header("Investor FAQ")
 st.markdown("""<div class="section-copy">Key questions about the float strategy, the MEDUSDi / USDC pool, and CareFi equity exposure.</div>""", unsafe_allow_html=True)

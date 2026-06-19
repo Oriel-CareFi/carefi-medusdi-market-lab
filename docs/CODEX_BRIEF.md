@@ -67,3 +67,11 @@ FAQ #4 now clarifies that combined CareFi equity/pool exposure must be intention
 ## v10 copy refinement
 
 Changed investor-facing label from "Lab" to **CareFi MEDUSDi Market Model** and shortened Step 4 to **Step 4 — Organic Supply** to avoid awkward line breaks in the two-column layout.
+
+
+## v11 dynamic upgrades
+
+Added:
+1. Scenario Compare — compares presets across modeled CareFi value, LP revenue, retained inventory, total supply, and CareFi supply share.
+2. Market Formation Timeline — shows float capture → spot pool → basis flow → organic supply → platform value.
+3. What Drives CareFi Value? — sensitivity/tornado-style view for volume, LP share, revenue multiple, retained inventory, and acquisition price.
